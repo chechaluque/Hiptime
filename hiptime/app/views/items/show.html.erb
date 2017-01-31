@@ -2,7 +2,7 @@
 
   <p id="notice"><%= notice %></p>
   <div class="jumbotron">
-    
+
     <h3>Title: <%= @item.title %></h3>
 
 
@@ -11,8 +11,11 @@
       <h3>Description: <%= @item.description %></h3>
 
 
-    <%= link_to 'Edit', edit_item_path(@item), class: "btn btn-success" %> |
-    <%= link_to 'Back', items_path, class: "btn btn-info" %>
+    <div class="col-md-4 col-md-offset-4 responsive">
+      <%= link_to 'Edit', edit_item_path(@item), class: "btn btn-success" %> |
+      <%= link_to 'Back', items_path, class: "btn btn-info" %>
+      <%= link_to 'Delete', items_path(@intem), method: :Delete, data: { confirm: "Are you sure?"}, class: "btn btn-danger" %>
+    </div>
 </div>
 
 
