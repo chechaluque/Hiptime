@@ -7,6 +7,7 @@
   <h1 class="text-center">Items</h1>
 <table class="table table-hover table-responsive">
   <thead>
+  <% if user_signed_in? %>
     <tr>
       <th class="text-center">Title</th>
       <th class="text-center">Description</th>
@@ -26,9 +27,12 @@
     <% end %>
   </tbody>
 </table>
-
+<%= link_to 'New Item', new_item_path, class: "btn btn-success" %>
+<% else %>
+  <%= render 'welcome_page' %>
+<% end %>
 
 <br>
 
-<%= link_to 'New Item', new_item_path, class: "btn btn-success" %>
+
 </div>
