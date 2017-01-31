@@ -9,21 +9,21 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
           <li class="navbar-brand"><%= link_to 'Hiptime', items_path %></li>
         </div>
         <% if user_signed_in? %>
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-right">
 
           <li><%= link_to 'New Item!', new_item_path %></li>
           <li><%= link_to 'Settings!', edit_user_registration_path %></li>
           <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></li>
         </ul>
         <% else %>
-        <ul class="nav navbar-nav">
-          <li><%= link_to 'Join', new_user_registration_path %></li>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to 'Join', new_user_registration_path%></li>
           <li><%= link_to 'Log In', new_user_session_path %></li>
         </ul>
         <% end %>
