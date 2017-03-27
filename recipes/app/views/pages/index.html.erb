@@ -1,6 +1,7 @@
 <%= render 'shared/page_title', title: "Showing all chefs" %>
 
-<div aling="center">
+<div align="center">
+  <%= will_paginate @chefs %>
   <% @chefs.each do |chef| %>
     <ul class="linting">
       <div class="row">
@@ -8,8 +9,11 @@
           <li><%= link_to gravatar_for(chef), page_path(chef) %></li>
           <li class="chef-title"><%= link_to chef.chefname.capitalize, page_path(chef) %></li>
           <li><small><%= pluralize(chef.recipes.count, "recipe") if chef.recipes %></small></li>
+          <li><%= link_to "Delete this Chef", page_path(chef), method: :delete, data: { confirm: "Are you sure you want to delete this chef and all associated recipes?" } %></li>
         </div>
       </div>
     </ul>
   <% end %>
+
+  <%= will_paginate @chefs %>
 </div>
