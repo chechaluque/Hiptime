@@ -1,5 +1,7 @@
 class RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_chef!, except: [:index, :show]
+  before_action :authenticate_same_chef, only: [:show, :edit, :update, :destroy]
 
   # GET /recipes
   # GET /recipes.json
@@ -14,7 +16,7 @@ class RecipesController < ApplicationController
 
   # GET /recipes/new
   def new
-    @recipe = Recipe.new
+    @recipe = current_chef.recipes.build
   end
 
   # GET /recipes/1/edit
@@ -24,8 +26,8 @@ class RecipesController < ApplicationController
   # POST /recipes
   # POST /recipes.json
   def create
-    @recipe = Recipe.new(recipe_params)
-    @recipe.chef = Chef.last
+    @recipe = current_chef.recipes.build(recipe_params)
+
 
     if @recipe.save
       flash[:success] = "Recipe was created successfuly!"
@@ -67,5 +69,12 @@ class RecipesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def recipe_params
       params.require(:recipe).permit(:name, :description, :chef_id)
+    end
+
+    def authenticate_same_chef
+      if current_chef != @recipe.chef && chef_signed_in?
+        flash[:danger] = "You can only edit or delete your own recipes"
+        redirect_to recipes_path
+      end
     end
 end

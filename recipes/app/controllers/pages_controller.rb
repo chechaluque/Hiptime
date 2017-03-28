@@ -1,6 +1,9 @@
 class PagesController < ApplicationController
   before_action :chef_params, only: [:show, :destroy]
+  before_action :authenticate_same_chef, only: [:edit, :update, :destro]
+
   def home
+    redirect_to recipes_path if chef_signed_in?
   end
   def index
     @chefs = Chef.paginate(page: params[:page], per_page: 5)
@@ -9,6 +12,9 @@ class PagesController < ApplicationController
   def show
     @chef = Chef.find(params[:id])
     @chef_recipes = @chef.recipes.paginate(page: params[:page], per_page: 5)
+  end
+  def edit
+    #code
   end
 
   def destroy
@@ -20,5 +26,12 @@ class PagesController < ApplicationController
   private
     def chef_params
       @chef = Chef.find(params[:id])
+    end
+
+    def authenticate_same_chef
+      if current_chef != @chef
+        flash[:danger] = "You can only edit or delete your own account"
+        redirect_to pages_path
+      end
     end
 end
