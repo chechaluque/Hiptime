@@ -1,7 +1,7 @@
 class RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_chef!, except: [:index, :show]
-  before_action :authenticate_same_chef, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_same_chef, only: [:edit, :update, :destroy]
 
   # GET /recipes
   # GET /recipes.json
@@ -72,7 +72,7 @@ class RecipesController < ApplicationController
     end
 
     def authenticate_same_chef
-      if current_chef != @recipe.chef && chef_signed_in?
+      if chef_signed_in? && (current_chef != @recipe.chef && !current_chef.admin?)
         flash[:danger] = "You can only edit or delete your own recipes"
         redirect_to recipes_path
       end
